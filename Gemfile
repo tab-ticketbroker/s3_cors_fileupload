@@ -1,19 +1,20 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 group :development do
-  gem 'rdoc', '~> 4.0'
-  gem 'gem-release', '~> 0.6'
+  gem 'rdoc'
+  gem 'gem-release'
 end
 
 group :test do
   # dependencies for S3CorsFileUpload
-  gem 'rails', '~> 4.0'
-  gem 'aws-s3'
+  gem 'rails', '~> 3.2.15'
+  gem 'aws-sdk', '~> 1.0'
   gem 'sqlite3' # the database driver for rails
   gem 'jquery-rails' # for including jQuery into the dummy app
 
-  gem 'rspec-rails', '~> 2.14'
-  gem 'shoulda-matchers', '~> 2.4'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'generator_spec'
   gem 'ffaker'
   gem 'capybara'
