@@ -12,7 +12,8 @@ module S3CorsFileupload
       @options = {
         :acl => 'public-read',
         :max_file_size => Config.max_file_size || 524288000,
-        :bucket => Config.bucket
+        :bucket => Config.bucket,
+        :region => Config.region
       }.merge(_options).merge(:secret_access_key => Config.secret_access_key)
     end
 

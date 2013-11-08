@@ -30,10 +30,10 @@ module S3CorsFileupload
         :signature => policy_helper.upload_signature,
         :success_action_status => '201'
       }
-      # assume that all of the non-documented keys are 
+      # assume that all of the non-documented keys are
       _html_options = options.reject { |key, val| [:access_key_id, :acl, :max_file_size, :bucket, :secure].include?(key) }
       # return the form html
-      construct_form_html(hidden_form_fields, policy_helper.options[:bucket], options[:secure], _html_options,  &block)
+      construct_form_html(hidden_form_fields, policy_helper.options[:bucket], policy_helper.options[:region], options[:secure], _html_options,  &block)
     end
 
     alias_method :s3_cors_fileupload_form, :s3_cors_fileupload_form_tag
@@ -45,13 +45,13 @@ module S3CorsFileupload
     end
 
     # hidden fields argument should be a hash of key value pairs (values may be blank if desired)
-    def construct_form_html(hidden_fields, bucket, secure = true, html_options = {}, &block)
+    def construct_form_html(hidden_fields, bucket, region = "s3", secure = true, html_options = {}, &block)
       # now build the html for the form
-      form_tag(secure == false ? "http://#{bucket}.s3.amazonaws.com" : "https://#{bucket}.s3.amazonaws.com", build_form_options(html_options)) do
+      form_tag(secure == false ? "http://#{region}.amazonaws.com/#{bucket}" : "https://#{region}.amazonaws.com/#{bucket}", build_form_options(html_options)) do
         hidden_fields.map do |name, value|
           hidden_field_tag(name, value)
         end.join.html_safe + "
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->  
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class='row fileupload-buttonbar'>
           <div class='col-lg-7'>
             <span class='btn btn-success fileinput-button'>
