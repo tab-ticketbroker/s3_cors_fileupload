@@ -31,7 +31,7 @@ module S3CorsFileupload
         :success_action_status => '201'
       }
       # assume that all of the non-documented keys are
-      _html_options = options.reject { |key, val| [:access_key_id, :acl, :max_file_size, :bucket, :secure].include?(key) }
+      _html_options = options.reject { |key, val| [:access_key_id, :acl, :max_file_size, :bucket, :secure, :region].include?(key) }
       # return the form html
       construct_form_html(hidden_form_fields, policy_helper.options[:bucket], policy_helper.options[:region], options[:secure], _html_options,  &block)
     end
@@ -41,7 +41,7 @@ module S3CorsFileupload
     private
 
     def build_form_options(options = {})
-      { :id => 'fileupload', upload_button_bar: '', upload_body: '' }.merge(options).merge(:multipart => true, :authenticity_token => false)
+      { :id => 'fileupload' }.merge(options).merge(:multipart => true, :authenticity_token => false)
     end
 
     # hidden fields argument should be a hash of key value pairs (values may be blank if desired)
@@ -53,54 +53,6 @@ module S3CorsFileupload
         end.join.html_safe + upload_button_bar.html_safe +
               file_field_tag(:file, :multiple => true) + upload_body.html_safe + (block ? capture(&block) : '')
       end
-    end
-
-
-    def bootstrap3_header
-      "
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-          <div class='row fileupload-buttonbar'>
-            <div class='col-lg-7'>
-              <span class='btn btn-success fileinput-button'>
-                <i class='glyphicon glyphicon-plus'></i>
-                <span>Add files...</span>
-      "
-    end
-
-    def bootstrap3_body
-      "
-            </span>
-            <button type='submit' class='btn btn-primary start'>
-              <i class='glyphicon glyphicon-upload'></i>
-              <span>Start upload</span>
-            </button>
-            <button type='reset' class='btn btn-warning cancel'>
-              <i class='glyphicon glyphicon-ban-circle'></i>
-              <span>Cancel upload</span>
-            </button>
-            <button type='button' class='btn btn-danger delete'>
-              <i class='glyphicon glyphicon-trash'></i>
-              <span>Delete</span>
-            </button>
-            <input type='checkbox' class='toggle'></input>
-            <!-- The loading indicator is shown during file processing -->
-            <span class='fileupload-loading'></span>
-          </div>
-          <!-- The global progress information -->
-          <div class='col-lg-5 fileupload-progress fade'>
-            <!-- The global progress bar -->
-            <div class='progress progress-striped active' role='progressbar' aria-valuemin='0' aria-valuemax='100'>
-              <div class='progress-bar progress-bar-success' style='width: 0%;'></div>
-            </div>
-            <!-- The extended global progress information -->
-            <div class='progress-extended'>&nbsp;</div>
-          </div>
-        </div>
-        <!-- The table listing the files available for upload/download -->
-        <table role='presentation' class='table table-striped' id='upload_files'>
-          <tbody class='files'></tbody>
-        </table>
-      "
     end
   end
 end
