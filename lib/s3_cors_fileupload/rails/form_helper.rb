@@ -41,7 +41,7 @@ module S3CorsFileupload
     private
 
     def build_form_options(options = {})
-      { :id => 'fileupload' }.merge(options).merge(:multipart => true, :authenticity_token => false)
+      { :id => 'fileupload', upload_button_bar: '', upload_body: '' }.merge(options).merge(:multipart => true, :authenticity_token => false)
     end
 
     # hidden fields argument should be a hash of key value pairs (values may be blank if desired)
