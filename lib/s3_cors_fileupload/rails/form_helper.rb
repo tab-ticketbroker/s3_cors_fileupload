@@ -50,15 +50,24 @@ module S3CorsFileupload
       form_tag(secure == false ? "http://#{region}.amazonaws.com/#{bucket}" : "https://#{region}.amazonaws.com/#{bucket}", build_form_options(html_options)) do
         hidden_fields.map do |name, value|
           hidden_field_tag(name, value)
-        end.join.html_safe + "
+        end.join.html_safe + bootstrap3_header.html_safe +
+              file_field_tag(:file, :multiple => true) + bootstrap3_body.html_safe + (block ? capture(&block) : '')
+      end
+    end
+
+    def bootstrap3_header
+      "
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-        <div class='row fileupload-buttonbar'>
-          <div class='col-lg-7'>
-            <span class='btn btn-success fileinput-button'>
-              <i class='glyphicon glyphicon-plus'></i>
-              <span>Add files...</span>
-              ".html_safe +
-              file_field_tag(:file, :multiple => true) + "
+          <div class='row fileupload-buttonbar'>
+            <div class='col-lg-7'>
+              <span class='btn btn-success fileinput-button'>
+                <i class='glyphicon glyphicon-plus'></i>
+                <span>Add files...</span>
+      "
+    end
+
+    def bootstrap3_body
+      "
             </span>
             <button type='submit' class='btn btn-primary start'>
               <i class='glyphicon glyphicon-upload'></i>
@@ -74,7 +83,7 @@ module S3CorsFileupload
             </button>
             <input type='checkbox' class='toggle'></input>
             <!-- The loading indicator is shown during file processing -->
-	          <span class='fileupload-loading'></span>
+            <span class='fileupload-loading'></span>
           </div>
           <!-- The global progress information -->
           <div class='col-lg-5 fileupload-progress fade'>
@@ -89,8 +98,8 @@ module S3CorsFileupload
         <!-- The table listing the files available for upload/download -->
         <table role='presentation' class='table table-striped' id='upload_files'>
           <tbody class='files'></tbody>
-        </table>".html_safe + (block ? capture(&block) : '')
-      end
+        </table>
+      "
     end
   end
 end
