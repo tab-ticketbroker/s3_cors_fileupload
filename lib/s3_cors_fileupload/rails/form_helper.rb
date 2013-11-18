@@ -50,52 +50,11 @@ module S3CorsFileupload
       form_tag(secure == false ? "http://#{region}.amazonaws.com/#{bucket}" : "https://#{region}.amazonaws.com/#{bucket}", build_form_options(html_options)) do
         hidden_fields.map do |name, value|
           hidden_field_tag(name, value)
-        end.join.html_safe + bootstrap2_header.html_safe +
-              file_field_tag(:file, :multiple => true) + bootstrap2_body.html_safe + (block ? capture(&block) : '')
+        end.join.html_safe + upload_button_bar.html_safe +
+              file_field_tag(:file, :multiple => true) + upload_body.html_safe + (block ? capture(&block) : '')
       end
     end
 
-    def bootstrap2_header
-      "
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-          <div class='row fileupload-buttonbar'>
-            <div class='span7'>
-              <span class='btn btn-success fileinput-button'>
-                <i class='icon-plus icon-white'></i>
-                <span>#{t('extranet.events.additional_info.add_image')}</span>
-      "
-    end
-
-    def bootstrap2_body
-      "
-            </span>
-            <button type='submit' class='btn btn-primary start'>
-              <i class='icon-upload icon-white'></i>
-              <span>Start upload</span>
-            </button>
-            <button type='reset' class='btn btn-warning cancel'>
-              <i class='icon-ban-circle icon-white'></i>
-              <span>Cancel upload</span>
-            </button>
-            <!-- The loading indicator is shown during file processing -->
-            <span class='fileupload-loading'></span>
-          </div>
-          <!-- The global progress information -->
-          <div class='span5 fileupload-progress fade'>
-            <!-- The global progress bar -->
-            <div class='progress progress-striped active' role='progressbar' aria-valuemin='0' aria-valuemax='100'>
-              <div class='progress-bar progress-bar-success' style='width: 0%;'></div>
-            </div>
-            <!-- The extended global progress information -->
-            <div class='progress-extended'>&nbsp;</div>
-          </div>
-        </div>
-        <!-- The table listing the files available for upload/download -->
-        <table role='presentation' class='table table-striped' id='upload_files'>
-          <tbody class='files'></tbody>
-        </table>
-      "
-    end
 
     def bootstrap3_header
       "
