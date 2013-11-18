@@ -33,7 +33,7 @@ module S3CorsFileupload
       # assume that all of the non-documented keys are
       _html_options = options.reject { |key, val| [:access_key_id, :acl, :max_file_size, :bucket, :secure, :region].include?(key) }
       # return the form html
-      construct_form_html(hidden_form_fields, policy_helper.options[:bucket], policy_helper.options[:region], options[:secure], _html_options,  &block)
+      construct_form_html(hidden_form_fields, policy_helper.options[:bucket], policy_helper.options[:region], options[:secure], options[:upload_buttons], options[:upload_body], _html_options,  &block)
     end
 
     alias_method :s3_cors_fileupload_form, :s3_cors_fileupload_form_tag
@@ -45,7 +45,7 @@ module S3CorsFileupload
     end
 
     # hidden fields argument should be a hash of key value pairs (values may be blank if desired)
-    def construct_form_html(hidden_fields, bucket, region = "s3", secure = true, html_options = {}, &block)
+    def construct_form_html(hidden_fields, bucket, region = "s3", secure = true, upload_button_bar = '', upload_body = '', html_options = {}, &block)
       # now build the html for the form
       form_tag(secure == false ? "http://#{region}.amazonaws.com/#{bucket}" : "https://#{region}.amazonaws.com/#{bucket}", build_form_options(html_options)) do
         hidden_fields.map do |name, value|
