@@ -1,5 +1,5 @@
 module S3CorsFileupload
-  VERSION = '0.4.0.beta3'
+  VERSION = '0.4.0.beta4'
   JQUERY_FILEUPLOAD_VERSION = '5.38.0'
   JQUERY_FILEUPLOAD_UI_VERSION = '9.0.0'
 end
